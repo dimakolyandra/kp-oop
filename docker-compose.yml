@@ -1,0 +1,15 @@
+# dev configuration
+version: '2'
+
+services:
+  web:
+    build: .
+    image: kp_oop:latest
+    ports:
+      - "8080:8080"
+    command: [ "http-server", "dist" ]
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
