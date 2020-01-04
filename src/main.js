@@ -3,6 +3,8 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
+// postgres://postgres:postgresd@db/postgres
+
 new Vue({
   render: h => h(App),
 }).$mount('#app')
