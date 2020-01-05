@@ -1,15 +1,20 @@
-# dev configuration
-version: '2'
+version: '3.7'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-web
     image: kp_oop:latest
     ports:
       - "8080:8080"
     command: [ "http-server", "dist" ]
 
   db:
-    image: postgres
+    build:
+      context: .
+      dockerfile: Dockerfile-db
     environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
