@@ -1,16 +1,15 @@
-FROM node:lts-alpine
-
-RUN npm install -g http-server
+FROM node:carbon-slim
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN npm install
+COPY yarn.lock ./
 
-COPY . .
-
-RUN npm run build
+RUN yarn install --force
 
 EXPOSE 8080
-CMD [ "http-server", "dist" ]
+
+USER node
+
+CMD ["yarn", "serve"]
