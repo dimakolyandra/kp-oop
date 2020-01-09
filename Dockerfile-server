@@ -2,12 +2,12 @@ FROM node:carbon-slim
 
 WORKDIR /app
 
-COPY ./client/package.json ./
+COPY ./server/package.json ./
 
-COPY ./client/yarn.lock ./
+COPY ./server/yarn.lock ./
 
 RUN yarn install --force
 
 EXPOSE 8080
 
-CMD ["yarn", "serve"]
+CMD ["yarn", "start"]
