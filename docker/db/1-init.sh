@@ -3,7 +3,7 @@ set -e
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     CREATE TABLE person (
-        code        text PRIMARY KEY,
+        login        text PRIMARY KEY,
         pwd       varchar(40) NOT NULL,
         role      varchar(1) NOT NULL
     );
@@ -17,4 +17,6 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         order_id        integer PRIMARY KEY,
         order_items      jsonb NOT NULL  
     );
+
+    insert into person values('admin', 'admin', 'A')
 EOSQL
