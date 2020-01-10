@@ -16,13 +16,16 @@ app.listen(process.env.PORT || config.port,
   () => console.log(`Server start on port ${config.port} ...`))
 
 
-app.get('/posts', async (req, res) => {
+app.post('/login', async (req, res) => {
   try {
-  	const person = await db.one("SELECT * from person where login = $1", "admin");	
+  	const person = await db.any(
+  		"SELECT * from person where login = $1 and pwd = $2",
+  		[req.body.login, req.body.pwd]
+  	);
+  	console.log(person);
   	res.send([{
-  		name: person.login,
-  		pwd: person.pwd,
-  		role: person.role
+  		success: person.length > 0 ? true : false, 
+  		role: person.length > 0 ? person[0].role : "null"
   	}]);
   } catch (error) {
   	console.log(error);
