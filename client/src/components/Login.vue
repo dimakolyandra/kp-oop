@@ -25,28 +25,6 @@
 		<div class="grid-item"></div>
 	</div>
 </template>
-
-
-<!-- 		data() {
-			return {
-				server_data: []
-			}
-		},
-		created() {
-			axios.post(`http://localhost:8081/login`, {
-				login: "admin", 
-				pwd: "admin"
-			})
-			.then(response => {
-			// JSON responses are automatically parsed.
-			this.server_data = response.data
-			})
-			.catch(e => {
-			this.errors.push(e)
-			})
-			}
-		} -->
-
 <script>
 	import InputField from './Input.vue'
 	import Button from './Button.vue'
@@ -79,7 +57,9 @@
 				.then(response => {
 				// JSON responses are automatically parsed.
 				this.server_data = response.data
-				alert(this.server_data[0].success)
+				if (this.server_data[0].success){
+					this.$router.push("/products");
+				}
 				})
 				.catch(e => {
 				this.errors.push(e)
