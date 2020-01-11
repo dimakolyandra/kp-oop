@@ -14,9 +14,10 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         product_count     integer NOT NULL
     );
     CREATE TABLE order_data (
-        order_id        integer PRIMARY KEY,
-        order_items      jsonb NOT NULL  
+        order_id        SERIAL PRIMARY KEY,
+        order_items      text NOT NULL  
     );
 
-    insert into person values('admin', 'admin', 'A')
+    insert into person values('admin', 'admin', 'A');
+    insert into person values('cassir', 'cassir', 'C');
 EOSQL
