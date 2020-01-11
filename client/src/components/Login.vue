@@ -8,32 +8,83 @@
 
 		<div class="grid-item"></div>
 		<div class="grid-item"><font class='text'>Login</font></div>
-		<div class="grid-item"><InputField name='Enter Login'/></div>
+		<div class="grid-item"><InputField v-on:update="updateLogin" name='Enter Login'/></div>
 		<div class="grid-item"></div>
 		<div class="grid-item"></div>
 		
 		<div class="grid-item"></div>
 		<div class="grid-item"><font class='text'>Password</font></div>
-		<div class="grid-item"><InputField name='Enter Password'/></div>
+		<div class="grid-item"><InputField v-on:update="updatePassword" name='Enter Password'/></div>
 		<div class="grid-item"></div>
 		<div class="grid-item"></div>
 
 		<div class="grid-item"></div>
 		<div class="grid-item"></div>
-		<div class="grid-item"><Button name="Sign In"></Button></div>
+		<div class="grid-item" @click="tryLogin()"><Button name="Sign In"></Button></div>
 		<div class="grid-item"></div>
 		<div class="grid-item"></div>
 	</div>
 </template>
 
+
+<!-- 		data() {
+			return {
+				server_data: []
+			}
+		},
+		created() {
+			axios.post(`http://localhost:8081/login`, {
+				login: "admin", 
+				pwd: "admin"
+			})
+			.then(response => {
+			// JSON responses are automatically parsed.
+			this.server_data = response.data
+			})
+			.catch(e => {
+			this.errors.push(e)
+			})
+			}
+		} -->
+
 <script>
 	import InputField from './Input.vue'
 	import Button from './Button.vue'
+	import axios from 'axios'
 	export default {
 		name: 'Login',
 		components: {
 			InputField,
 			Button
+		},
+		data: function() {
+			return {
+				login: '',
+				pwd: '',
+				server_data: []
+			}
+		},
+		methods: {
+			updatePassword: function(val) {
+				this.pwd = val;
+			},
+			updateLogin: function(val) {
+				this.login = val;
+			},
+			tryLogin: function() {
+				axios.post(`http://localhost:8081/login`, {
+					login: this.pwd, 
+					pwd: this.login
+				})
+				.then(response => {
+				// JSON responses are automatically parsed.
+				this.server_data = response.data
+				alert(this.server_data[0].success)
+				})
+				.catch(e => {
+				this.errors.push(e)
+				})
+			}
 		}
 	}
 </script>

@@ -2,7 +2,8 @@
 <div class="wrapper">
   <form>
     <div class="group">
-      <input type="text" required="required"/><span class="highlight"></span><span class="bar"></span>
+      <input type="text" required="required" v-model="value" @keyup="$emit('update', value);"/>
+      <span class="highlight"></span><span class="bar"></span>
       <label>{{name}}</label>
     </div>
   </form>
@@ -13,7 +14,8 @@
 	export default {
 		name: "InputField",
 		props: {
-			name: String
+			name: String,
+      value: String
 		}
 	}
 </script>
