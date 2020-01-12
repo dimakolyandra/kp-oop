@@ -61,6 +61,16 @@ app.post('/product_delete', async (req, res) => {
   res.send(await get_all_order_items());
 })
 
+app.post('/delete_all', async (req, res) => {
+  console.log("Deleting all order item... " + req.body.order_id);
+  try {
+    await db.any("DELETE FROM ORDER_DATA");
+    console.log("Success delete all");
+  } catch(error) {
+    console.log("Error when delete all error: " + error);
+  } 
+  res.send(await get_all_order_items());
+})
 
 app.get('/product', async (req, res) => {
   console.log("Getting all order items...");
