@@ -28,19 +28,16 @@
 			}
 		},
 		methods: {
-
 			addOrder: function(order_content) {
 
-				axios.post(`http://localhost:8081/product_add`, {
+				axios.post(`http://localhost:8081/order_items_add`, {
 					order_items: order_content
 				}).then(response => {
 					this.data = response.data;
 				}).catch(e => {this.errors.push(e)})
 			},
-
 			removeOrder: function(id) {
-				
-				axios.post(`http://localhost:8081/product_delete`, {
+				axios.post(`http://localhost:8081/order_items_delete`, {
 					order_id: id
 				}).then(response => {
 					this.data = response.data;
@@ -49,8 +46,7 @@
 
 		},
 		created() {
-
-			axios.post(`http://localhost:8081/delete_all`)
+			axios.post(`http://localhost:8081/order_items_delete_all`)
 			this.addOrder('карошка огурцы томат');
 			this.addOrder('перец лук петрушка');
 			this.addOrder('укроп селедка под шубой');

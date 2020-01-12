@@ -21,6 +21,11 @@ async function get_all_order_items() {
   return await db.any("SELECT * from order_data");
 }
 
+async function get_all_products() {
+  console.log("Getting all products...");
+  return await db.any("SELECT * from product");
+}
+
 app.post('/login', async (req, res) => {
   try {
   	const person = await db.any(
@@ -38,7 +43,7 @@ app.post('/login', async (req, res) => {
  })
 
 
-app.post('/product_add', async (req, res) => {
+app.post('/order_items_add', async (req, res) => {
   console.log("Insertin order items... " + req.body.order_items);
   try {
     await db.none("INSERT INTO ORDER_DATA(order_items) VALUES ($1)", req.body.order_items)
@@ -50,7 +55,7 @@ app.post('/product_add', async (req, res) => {
 })
 
 
-app.post('/product_delete', async (req, res) => {
+app.post('/order_items_delete', async (req, res) => {
   console.log("Deleting order item... " + req.body.order_id);
   try {
     await db.none("DELETE FROM ORDER_DATA where order_id = $1", req.body.order_id);
@@ -61,8 +66,8 @@ app.post('/product_delete', async (req, res) => {
   res.send(await get_all_order_items());
 })
 
-app.post('/delete_all', async (req, res) => {
-  console.log("Deleting all order item... " + req.body.order_id);
+app.post('/order_items_delete_all', async (req, res) => {
+  console.log("Deleting all order item... ");
   try {
     await db.any("DELETE FROM ORDER_DATA");
     console.log("Success delete all");
@@ -72,7 +77,11 @@ app.post('/delete_all', async (req, res) => {
   res.send(await get_all_order_items());
 })
 
-app.get('/product', async (req, res) => {
+app.get('/order_items', async (req, res) => {
   console.log("Getting all order items...");
   res.send(await get_all_order_items());
+})
+
+app.get('/product', async (req, res) => {
+  res.send(await get_all_products());
 })
