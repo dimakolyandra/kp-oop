@@ -9,13 +9,14 @@
 		</div>
 	</div>
 	<div class="container-col">
-		<div class="flex-item-icon" v-for="order in data" v-bind:key="order"><OrderIcon :id="order.order_id" :name="order.order_items"></OrderIcon></div>
+		<div class="flex-item-icon" v-for="order in data" v-bind:key="order"><OrderIcon @clicked="removeOrder" :id="order.order_id" :name="order.order_items"></OrderIcon></div>
 	</div>
 </div>
 </template>
 
 <script>
 	import OrderIcon from './OrderIcon.vue'
+	import axios from 'axios'
 	export default {
 		name: 'OrdersList',
 		components: {
@@ -23,22 +24,41 @@
 		},
 		data: function(){
 			return {
-				data: [ 
-					{ 
-						"order_id": 5, 
-						"order_items": "10 огурцов; 12 помидоров" 
-					}, 
-					{ 
-						"order_id": 6, 
-						"order_items": "10 огурцов; 12 помидоров" 
-					}, 
-					{ 
-						"order_id": 7, 
-						"order_items": "10 огурцов; 12 помидоров" 
-					} 
-					]
+				data: []
 			}
+		},
+		methods: {
+
+			addOrder: function(order_content) {
+
+				axios.post(`http://localhost:8081/product_add`, {
+					order_items: order_content
+				}).then(response => {
+					this.data = response.data;
+				}).catch(e => {this.errors.push(e)})
+			},
+
+			removeOrder: function(id) {
+				
+				axios.post(`http://localhost:8081/product_delete`, {
+					order_id: id
+				}).then(response => {
+					this.data = response.data;
+				}).catch(e => {this.errors.push(e)})
+			}
+
+		},
+		created() {
+
+			axios.post(`http://localhost:8081/delete_all`)
+			this.addOrder('карошка огурцы томат');
+			this.addOrder('перец лук петрушка');
+			this.addOrder('укроп селедка под шубой');
+			this.addOrder('где мой гамбургер');
+			this.addOrder('хто я');
+			this.addOrder('укроп селедка под шубой');
 		}
+
 	}
 </script>
 
