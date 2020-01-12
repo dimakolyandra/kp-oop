@@ -8,8 +8,8 @@
 		</div>
 		<div class='flex-item'>
 			<div class='container-col'>
-				<div class='flex-item-icon'><span style="background-color: rgb(149,188,106); font-size: 20px; font-family: Avenir Next; font-weight: 700; color: white">Accept</span></div>
-				<div class='flex-item-icon'><span style="background-color: rgb(206,60,60); font-size: 20px; font-family: Avenir Next; font-weight: 700; color: white">Cancel</span></div>
+				<div class='flex-item-icon' @click="returnId()"><span style="background-color: rgb(149,188,106); font-size: 20px; font-family: Avenir Next; font-weight: 700; color: white">Accept</span></div>
+				<div class='flex-item-icon' @click="returnId()"><span style="background-color: rgb(206,60,60); font-size: 20px; font-family: Avenir Next; font-weight: 700; color: white">Cancel</span></div>
 			</div>
 		</div>
 	</div>
@@ -21,6 +21,11 @@
 		props: {
 			id: Number,
 			name: String
+		},
+		methods: {
+			returnId: function() {
+				this.$emit('clicked', this.id);
+			}
 		}
 	}
 </script>
