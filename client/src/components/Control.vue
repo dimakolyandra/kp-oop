@@ -2,13 +2,13 @@
 	<div>
 		<div class='container'>
 			<div class='flex-item'>
-				<input class='search' type='text' placeholder=" Search"/>
+				<input v-model="product_name" class='search' type='text' placeholder=" Search"/>
 			</div>
 		</div>
 
 		<div class='container'>
 			<div class='flex-item-buttons'>
-				<div class="go_search"><span>Search</span></div>
+				<div class="go_search" @click="product_req()"><span>Search</span></div>
 			</div>
 			<div class='flex-item-buttons'>
 				<div class="add"><span>Add</span></div>
@@ -19,8 +19,30 @@
 </template>
 
 <script>
+	import axios from 'axios'
 	export default {
-		name: "Control"
+		name: "Control",
+		data: function() {
+			return {
+				product_name: '',
+				product_info: {}
+			}
+		},
+		methods: {
+
+			product_req: function() {
+				axios.get(`http://localhost:8081/find_product?name=` + this.product_name)
+				.then(response => {
+				// JSON responses are automatically parsed.
+				this.product_info = response.data
+				alert(this.product_info)
+				this.$router.push({ path: '/editprod',query:{name:this.product_info}});
+				})
+				.catch(e => {
+				this.errors.push(e)
+				})
+			}
+		}
 	}
 </script>
 

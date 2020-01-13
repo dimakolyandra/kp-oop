@@ -49,6 +49,21 @@ app.post('/product_add', async (req, res) => {
   res.send(await get_all_order_items());
 })
 
+app.get('/find_product', async (req, res) => {
+  console.log("Search product with name " + req.query.name);
+  try {
+    const product = await db.any("select * from product where product_name = $1", [req.query.name]);
+    res.send({
+      product_id: product.length > 0 ? product[0].product_id : 0,
+      product_name: req.query.name,
+      product_cost: product.length > 0 ? product[0].product_cost : 0,
+      product_count: product.length > 0 ? product[0].product_count : 0
+    });
+  } catch(error) {
+    console.log("Error when insert error: " + error);
+  } 
+})
+
 
 app.post('/product_delete', async (req, res) => {
   console.log("Deleting order item... " + req.body.order_id);
