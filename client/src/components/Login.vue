@@ -25,6 +25,7 @@
 		<div class="grid-item"></div>
 	</div>
 </template>
+
 <script>
 	import InputField from './Input.vue'
 	import Button from './Button.vue'

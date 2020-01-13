@@ -5,7 +5,9 @@
 			<img src="../assets/logo.png" width=100%>
 		</div>
 		<div class="flex-item">
-			<span style="background-color: rgb(206,60,60); font-size: 50px; font-family: Avenir Next; font-weight: 700; color: white">Orders list</span>
+			<div class="header">
+				<span>Orders list</span>
+			</div>
 		</div>
 	</div>
 	<div class="container-col">
@@ -60,6 +62,17 @@
 
 
 <style scoped>
+.header {
+	background-color: rgb(206,60,60);
+	font-size: 50px;
+	font-family: Avenir Next;
+	font-weight: 700;
+	color: white;
+	height: 70px;
+	width: 300px;
+	text-align: center;
+	border-radius: 4px;
+}
 .container {
   display: flex;
   flex-direction: row
