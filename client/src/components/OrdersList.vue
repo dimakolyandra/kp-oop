@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="this.$store.state.is_authorized && this.$store.state.role === 'A'">
 	<div class="container">
 		<div class="flex-item">
 			<img src="../assets/logo.png" width=100%>
@@ -13,6 +13,9 @@
 	<div class="container-col">
 		<div class="flex-item-icon" v-for="order in data" v-bind:key="order"><OrderIcon @clicked="removeOrder" :id="order.order_id" :name="order.order_items"></OrderIcon></div>
 	</div>
+</div>
+<div v-else>
+  <h1>Unauthorized!</h1>
 </div>
 </template>
 
@@ -31,7 +34,6 @@
 		},
 		methods: {
 			addOrder: function(order_content) {
-
 				axios.post(`http://localhost:8081/order_items_add`, {
 					order_items: order_content
 				}).then(response => {
@@ -56,7 +58,6 @@
 			this.addOrder('хто я');
 			this.addOrder('укроп селедка под шубой');
 		}
-
 	}
 </script>
 

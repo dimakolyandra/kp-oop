@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="this.$store.state.is_authorized && this.$store.state.role === 'C'">
   <div class="container header">
     <div class="flex-item">
       <img src="../assets/logo.png" width=300%>
@@ -13,15 +13,23 @@
     <div class="flex-item">
         <span style="font-size: 20px; font-family: Avenir Next; font-weight: 700; color: rgb(169,143,80)">Сумма: {{ total_cost }}</span>     
     </div>
-    <div class="flex-item">
+    <div class="flex-item" @click="createOrder()">
         <span style="background-color: rgb(206,60,60); font-size: 20px; font-family: Avenir Next; font-weight: 700; color: white">Создать заказ</span>     
     </div>
   </div>
   <div class="container-grid">
     <div class="flex-item-icon" v-for="product in data" v-bind:key="product.product_name">
-      <ProductIcon @clicked_add="addToOrder" @clicked_rem="removeFromOrder" :product_name="product.product_name" :product_cost="product.product_cost"></ProductIcon>
+      <ProductIcon
+          @clicked_add="addToOrder"
+          @clicked_rem="removeFromOrder"
+          :product_name="product.product_name"
+          :product_cost="product.product_cost"
+          :product_count="getCurrentProductCount(product.product_name, product.product_count)"/>
     </div>
   </div>
+</div>
+<div v-else>
+  <h1>Unauthorized!</h1>
 </div>
 </template>
 
@@ -35,7 +43,7 @@
     },
     props: {
       total_cost: Number,
-      order_content: Map
+      order_content: Map,
     },
     data: function(){
       return {
@@ -43,41 +51,48 @@
       }
     },
     methods: {
-      addToOrder: function(product_name, product_cost) {
-        this.total_cost += product_cost;
-        this.order_content[product_name];
-        if (!(product_name in this.order_content)){
-          this.order_content[product_name] = 0;
+      getCurrentProductCount: function(product_name, product_total_count){
+        if (this.order_content.hasOwnProperty(product_name)) {
+          return product_total_count - this.order_content[product_name];        
         }
-        this.order_content[product_name]++;
-        var order = "ЗАКАЗ\n";
-        for (var key in this.order_content) {
-            if (this.order_content.hasOwnProperty(key)) {
-                order +=  "Продукт: " + key + " в количестве: " + this.order_content[key] + "\n";
-            }
-        }
-        alert(order); 
+        return product_total_count;
       },
-      removeFromOrder: function(product_name, product_cost){
-        this.total_cost -= product_cost;
-        this.order_content[product_name];
-        if (!(product_name in this.order_content)){
-          this.order_content[product_name] = 0;
+      addToOrder: function(product_name, product_cost, product_count) {
+        if (product_count > 0) {
+          this.total_cost += product_cost;
+          if (!(product_name in this.order_content)){
+            this.order_content[product_name] = 0;
+          }
+          this.order_content[product_name]++;
+        } else {
+          alert("Невозможно добавить больше товаров данного типа!")
         }
-        this.order_content[product_name]--;
-        var order = "ЗАКАЗ\n";
-        for (var key in this.order_content) {
-            if (this.order_content.hasOwnProperty(key)) {
-                order +=  "Продукт: " + key + " в количестве: " + this.order_content[key] + "\n";
-            }
+      },
+      removeFromOrder: function(product_name, product_cost) {
+        if (this.order_content[product_name] > 0) {
+          this.total_cost -= product_cost;
+          this.order_content[product_name]--;
+          if (this.order_content[product_name] == 0) {
+            delete this.order_content[product_name];
+          }
+        } else {
+          alert("Невозможно больше  удалять товары данного типа!")
         }
-        alert(order);         
       },
       getProducts: function(){
         axios.get(`http://localhost:8081/product`)
         .then(response => {
           this.data = response.data;
         }).catch(e => {this.errors.push(e)})
+      },
+      createOrder: function(){
+          var order = "ЗАКАЗ\n";
+          for (var key in this.order_content) {
+              if (this.order_content.hasOwnProperty(key)) {
+                  order +=  "Продукт: " + key + " в количестве: " + this.order_content[key] + "\n";
+              }
+          }
+          alert(order);        
       }
     },
     created() {

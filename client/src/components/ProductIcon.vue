@@ -7,6 +7,9 @@
     <div class='flex-item-product'>
       <span style="font-size: 20px; font-family: Avenir Next; font-weight: 700; color: rgb(30, 30, 30)">Цена продукта: {{product_cost}}</span>
     </div>
+    <div class='flex-item-product'>
+      <span style="font-size: 20px; font-family: Avenir Next; font-weight: 700; color: rgb(30, 30, 30)">Количество товаров: {{product_count}}</span>
+    </div>
     <div class='flex-item-product' @click="addToOrder()">
       <span style="background-color: rgb(206,60,60); font-size: 20px; font-family: Avenir Next; font-weight: 700; color: rgb(30, 30, 30)">Add</span>
     </div>
@@ -23,11 +26,12 @@
     name: 'ProductIcon',
     props: {
       product_name: String,
-      product_cost: Number
+      product_cost: Number,
+      product_count: Number,
     },
     methods: {
       addToOrder: function() {
-        this.$emit('clicked_add', this.product_name, this.product_cost);
+        this.$emit('clicked_add', this.product_name, this.product_cost, this.product_count);
       },
       removeFromOrder: function() {
         this.$emit('clicked_rem', this.product_name, this.product_cost);
