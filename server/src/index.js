@@ -42,7 +42,6 @@ app.post('/login', async (req, res) => {
   }
  })
 
-
 app.post('/order_items_add', async (req, res) => {
   console.log("Insertin order items... " + req.body.order_items);
   try {

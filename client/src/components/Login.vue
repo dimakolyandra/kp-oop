@@ -55,11 +55,20 @@
 					pwd: this.login
 				})
 				.then(response => {
-				// JSON responses are automatically parsed.
-				this.server_data = response.data
-				if (this.server_data[0].success){
-					this.$router.push("/products");
-				}
+					// JSON responses are automatically parsed.
+					this.server_data = response.data
+					if (this.server_data[0].success && this.server_data[0].role == "C"){
+						this.$store.state.role = "C";
+						this.$store.state.is_authorized = true;
+						this.$router.push("/products");
+					}
+					else if (this.server_data[0].success && this.server_data[0].role == "A"){
+						this.$router.push("/orlist");
+						this.$store.state.role = "A";
+						this.$store.state.is_authorized = true;
+					} else {
+						alert("Wrong credentials!");
+					}
 				})
 				.catch(e => {
 				this.errors.push(e)
