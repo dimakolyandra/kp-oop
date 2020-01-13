@@ -1,5 +1,5 @@
 <template>
-<div v-if="this.$store.state.is_authorized && this.$store.state.role === 'A'">
+<div v-if="this.$store.state.is_authorized && this.$store.state.role === 'C'">
 	<div class="container">
 		<div class="flex-item">
 			<img src="../assets/logo.png" width=100%>

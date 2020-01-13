@@ -4,6 +4,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const pgp = require('pg-promise')();
 const config = require('./config/config')
+const querystring = require('querystring');
 
 const db = pgp(config.db)
 const app = express()
@@ -98,4 +99,16 @@ app.get('/order_items', async (req, res) => {
 
 app.get('/product', async (req, res) => {
   res.send(await get_all_products());
+})
+
+
+app.post('/product_update', async(req, res) => {
+  console.log("Deleting all order item... ");
+  try {
+    let product = await db.none("DELETE FROM ORDER_DATA");
+    console.log("Success delete all");
+  } catch(error) {
+    console.log("Error when delete all error: " + error);
+  }
+  res.send(await get_all_order_items());  
 })
