@@ -63,9 +63,9 @@
 						this.$router.push("/products");
 					}
 					else if (this.server_data[0].success && this.server_data[0].role == "A"){
-						this.$router.push("/orlist");
 						this.$store.state.role = "A";
 						this.$store.state.is_authorized = true;
+						this.$router.push("/orlist");
 					} else {
 						alert("Wrong credentials!");
 					}
