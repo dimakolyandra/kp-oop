@@ -24,8 +24,8 @@
         </div>
         <div class='flex-item'>
             <div class='container-row'>
-                <div class='flex-item-1'><div class="accept"><font>Accept</font></div></div>
-                <div class='flex-item-1'><div class="cancel"><font>Cancel</font></div></div>
+                <div class='flex-item-1'><div class="accept" @click="updateProduct"><font>Accept</font></div></div>
+                <div class='flex-item-1'><div class="cancel" @click="cancelEdit"><font>Cancel</font></div></div>
             </div>
         </div>
         </div>
@@ -36,8 +36,27 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: "EditProduct",
+        methods: {
+            updateProduct: function(){
+                if (this.product.product_id != 0){
+                    axios.post(`http://localhost:8081/product_update`, this.product).then(response => {
+                        this.data = response.data;
+                        alert("Product updated!");
+                    }).catch(e => {this.errors.push(e)})
+                } else {
+                    axios.post(`http://localhost:8081/product_create`, this.product).then(response => {
+                        this.data = response.data;
+                        alert("Product created!");
+                    }).catch(e => {this.errors.push(e)})                    
+                }
+            },
+            cancelEdit: function(){
+                this.$router.push('/control');
+            }
+        },
         created() {
             this.product = this.$route.query.name;
         }

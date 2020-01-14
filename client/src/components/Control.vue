@@ -10,9 +10,6 @@
             <div class='flex-item-buttons'>
                 <div class="go_search" @click="product_req()"><span>Search</span></div>
             </div>
-            <div class='flex-item-buttons'>
-                <div class="add"><span>Add</span></div>
-            </div>
         </div>
     </div>
     <div v-else>
@@ -35,15 +32,13 @@
             product_req: function() {
                 axios.get(`http://localhost:8081/find_product?name=` + this.product_name)
                 .then(response => {
-                // JSON responses are automatically parsed.
-                this.product_info = response.data
-                alert(this.product_info)
-                this.$router.push({ path: '/editprod',query:{name:this.product_info}});
+                    this.product_info = response.data
+                    this.$router.push({ path: '/editprod',query:{name:this.product_info}});
                 })
                 .catch(e => {
-                this.errors.push(e)
+                    this.errors.push(e)
                 })
-            }
+            },
         }
     }
 </script>

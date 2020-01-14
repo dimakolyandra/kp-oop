@@ -103,12 +103,34 @@ app.get('/product', async (req, res) => {
 
 
 app.post('/product_update', async(req, res) => {
-  console.log("Deleting all order item... ");
+  console.log("Updating product ... " + req.body);
+  var success = true;
   try {
-    let product = await db.none("DELETE FROM ORDER_DATA");
-    console.log("Success delete all");
+    await db.none(
+      "UPDATE product SET product_name = $1, product_cost = $2, product_count = $3 WHERE product_id = $4", 
+      [req.body.product_name, req.body.product_cost, req.body.product_count, req.body.product_id]);
+    console.log("Success update");
   } catch(error) {
-    console.log("Error when delete all error: " + error);
+    console.log("Error when update: " + error);
+    success = false;
   }
-  res.send(await get_all_order_items());  
+  res.send({"success": success});  
+})
+
+
+app.post('/product_create', async(req, res) => {
+  console.log("Creating product ... " + req.body);
+  var success = true;
+  let product;
+  try {
+    await db.none(
+      "INSERT INTO product(product_name, product_cost, product_count) VALUES ($1, $2, $3)", 
+      [req.body.product_name, req.body.product_cost, req.body.product_count]);
+    product = await db.one("SELECT * FROM product WHERE product_name = $1", req.body.product_name);
+    console.log("Success insert: " + product);
+  } catch(error) {
+    console.log("Error when update: " + error);
+    success = false;
+  }
+  res.send(product);  
 })
