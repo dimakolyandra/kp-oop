@@ -5,7 +5,7 @@
       <img src="../assets/logo.png" width=300%>
     </div>
     <div class="flex-item">
-      <span style="background-color: rgb(206,60,60); font-size: 50px; font-family: Avenir Next; font-weight: 700; color: white">Menu</span>
+      <span style="background-color: rgb(206,60,60); font-size: 50px; font-family: Avenir Next; font-weight: 700; color: white" @click="getProducts">Menu</span>
     </div>
     <div class="flex-item">
       <img src="../assets/cash.png" width=60%>
@@ -93,7 +93,7 @@
               }
           }
           alert(order);        
-      }
+      },
     },
     created() {
       this.total_cost = 0;

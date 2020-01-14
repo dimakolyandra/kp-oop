@@ -66,7 +66,7 @@
 					else if (this.server_data[0].success && this.server_data[0].role == "A"){
 						this.$store.state.role = "A";
 						this.$store.state.is_authorized = true;
-						this.$router.push("/orlist");
+						this.$router.push("/control");
 					} else {
 						alert("Wrong credentials!");
 					}
